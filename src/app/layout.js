@@ -1,7 +1,11 @@
+"use client"
 import './globals.css'
 import { Inter } from 'next/font/google'
 import NavBar from '@/components/NavBar/NavBar'
 import Footer from '@/components/Footer/Footer'
+import { useRouter } from "next/navigation"
+import "./nprogress.css";
+import NProgress from 'nprogress'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,6 +15,13 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  const router = useRouter();
+
+  NProgress.configure({ showSpinner: false })
+  router?.events?.on('routeChangeStart', () => NProgress.start())
+  router?.events?.on('routeChangeComplete', () => NProgress.done())
+  router?.events?.on('routeChangeError', () => NProgress.done())
+
   return (
     <html lang="en">
       <body className={inter.className}>
